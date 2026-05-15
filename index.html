@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ page.title }} | {{ site.tagline }}</title>
-  <meta name="description" content="{{ page.description }}">
+  <title>Kujaga — Autonomous Identity Security Agent</title>
+  <meta name="description" content="Kujaga jaga namamu, data kamu, dan reputasi kamu. Autonomous Identity Security Agent untuk public figure Indonesia.">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -35,15 +35,19 @@
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
-    .beta-badge::before {
-      content: '';
-      width: 6px;
-      height: 6px;
-      background: #000;
-      border-radius: 50%;
-      animation: blink 1.5s infinite;
+    .section-title {
+      font-size: 40px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 16px;
     }
-    @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+    .section-subtitle {
+      color: #94a3b8;
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto 48px;
+      font-size: 18px;
+    }
     
     /* Navbar */
     nav {
@@ -127,6 +131,15 @@
       transition: background 0.2s;
     }
     .btn-secondary:hover { background: rgba(255,255,255,0.1); }
+    .btn-green {
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      padding: 16px 32px; border-radius: 9999px;
+      font-weight: 600; font-size: 18px;
+      text-decoration: none; color: #fff;
+      box-shadow: 0 0 40px rgba(34,197,94,0.3);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-green:hover { transform: scale(1.05); box-shadow: 0 0 60px rgba(34,197,94,0.5); }
     
     /* Trust Bar */
     .trust-bar { padding: 48px 0; border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05); }
@@ -168,59 +181,21 @@
     .feature-card h3 { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
     .feature-card p { color: #94a3b8; font-size: 14px; }
     
-    /* Beta Waitlist */
-    .waitlist-section {
-      background: linear-gradient(135deg, rgba(245,158,11,0.1), rgba(217,119,6,0.05));
-      border: 1px solid rgba(245,158,11,0.3);
+    /* Start Section */
+    .start-section {
+      background: linear-gradient(135deg, rgba(34,197,94,0.1), rgba(34,197,94,0.02));
+      border: 1px solid rgba(34,197,94,0.3);
       border-radius: 24px;
-      padding: 48px;
+      padding: 64px;
       text-align: center;
-      max-width: 700px;
+      max-width: 800px;
       margin: 0 auto;
     }
-    .waitlist-section h2 { font-size: 28px; font-weight: 700; margin-bottom: 16px; }
-    .waitlist-section p { color: #94a3b8; margin-bottom: 32px; }
-    .waitlist-form { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-    .waitlist-form input {
-      background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.2);
-      border-radius: 12px;
-      padding: 14px 20px;
-      font-size: 16px;
-      color: #fff;
-      width: 280px;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-    .waitlist-form input:focus { border-color: #f59e0b; }
-    .waitlist-form input::placeholder { color: #64748b; }
-    .btn-waitlist {
-      background: linear-gradient(135deg, #f59e0b, #d97706);
-      color: #000;
-      font-weight: 700;
-      padding: 14px 28px;
-      border-radius: 12px;
-      border: none;
-      cursor: pointer;
-      font-size: 16px;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .btn-waitlist:hover { transform: scale(1.05); box-shadow: 0 0 30px rgba(245,158,11,0.4); }
-    .waitlist-note { font-size: 12px; color: #64748b; margin-top: 16px; }
-    
-    /* Stats Live */
-    .live-stats {
-      display: flex; gap: 32px; justify-content: center; flex-wrap: wrap;
-      margin-top: 24px;
-    }
-    .live-stat {
-      display: flex; align-items: center; gap: 8px;
-      font-size: 14px; color: #94a3b8;
-    }
-    .live-stat .dot {
-      width: 8px; height: 8px; background: #4ade80;
-      border-radius: 50%; animation: pulse 2s infinite;
-    }
+    .start-section h2 { font-size: 36px; font-weight: 700; margin-bottom: 16px; }
+    .start-section p { color: #94a3b8; font-size: 18px; margin-bottom: 32px; }
+    .live-stats { display: flex; gap: 32px; justify-content: center; flex-wrap: wrap; margin-top: 32px; }
+    .live-stat { display: flex; align-items: center; gap: 8px; font-size: 14px; color: #94a3b8; }
+    .live-stat .dot { width: 8px; height: 8px; background: #4ade80; border-radius: 50%; animation: pulse 2s infinite; }
     
     /* How It Works */
     .steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px; text-align: center; }
@@ -241,41 +216,6 @@
     .step h3 { font-size: 20px; font-weight: 600; margin-bottom: 8px; }
     .step p { color: #94a3b8; }
     
-    /* Pricing */
-    .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 1000px; margin: 0 auto; }
-    .pricing-card {
-      background: rgba(30,41,59,0.5); border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 24px; padding: 32px;
-    }
-    .pricing-card.popular {
-      background: linear-gradient(135deg, rgba(99,102,241,0.1), rgba(139,92,246,0.1));
-      border-color: rgba(99,102,241,0.5);
-    }
-    .pricing-card .badge-popular {
-      display: inline-block;
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      padding: 4px 16px; border-radius: 9999px;
-      font-size: 12px; font-weight: 600;
-      margin-bottom: 16px;
-      position: relative; top: -40px;
-    }
-    .pricing-card h3 { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
-    .pricing-card .price { font-size: 40px; font-weight: 700; margin-bottom: 24px; }
-    .pricing-card .price span { font-size: 16px; color: #94a3b8; font-weight: 400; }
-    .pricing-card ul { list-style: none; margin-bottom: 32px; }
-    .pricing-card li { padding: 8px 0; display: flex; align-items: center; gap: 8px; font-size: 14px; }
-    .pricing-card li svg { width: 16px; height: 16px; color: #4ade80; flex-shrink: 0; }
-    .btn-pricing {
-      width: 100%; padding: 12px; border-radius: 9999px; font-weight: 600;
-      text-align: center; text-decoration: none; display: block;
-      transition: background 0.2s;
-    }
-    .btn-pricing.primary {
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      color: #fff;
-    }
-    .btn-pricing.secondary { background: rgba(255,255,255,0.1); color: #fff; }
-    
     /* Data Sources */
     .data-sources {
       background: rgba(255,255,255,0.03);
@@ -291,15 +231,6 @@
     .data-sources a { color: #6366f1; text-decoration: none; }
     .data-sources a:hover { text-decoration: underline; }
     
-    /* CTA */
-    .cta-box {
-      background: linear-gradient(135deg, rgba(99,102,241,0.2), rgba(139,92,246,0.2));
-      border: 1px solid rgba(99,102,241,0.3);
-      border-radius: 48px; padding: 64px; text-align: center;
-    }
-    .cta-box h2 { font-size: 40px; font-weight: 700; margin-bottom: 16px; }
-    .cta-box p { color: #94a3b8; font-size: 18px; margin-bottom: 32px; }
-    
     /* Footer */
     footer { padding: 48px 0; border-top: 1px solid rgba(255,255,255,0.05); }
     footer .container { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px; }
@@ -312,12 +243,12 @@
     /* Responsive */
     @media (max-width: 768px) {
       .hero h1 { font-size: 40px; }
-      .trust-stats, .problem-grid, .features-grid, .pricing-grid { grid-template-columns: 1fr; }
+      .trust-stats, .problem-grid, .features-grid { grid-template-columns: 1fr; }
       .steps-grid { grid-template-columns: 1fr; }
       .step::after { display: none; }
       nav .nav-links { display: none; }
-      .waitlist-form { flex-direction: column; align-items: center; }
-      .waitlist-form input { width: 100%; }
+      .start-section { padding: 32px; }
+      .start-section h2 { font-size: 28px; }
     }
   </style>
 </head>
@@ -333,7 +264,7 @@
           <br><br>
           <div class="badge">
             <span></span>
-            Autonomous Protection 24/7 • Zero Manual Triggers
+            Proteksi Otomatis 24/7 • Tanpa Trigger Manual
           </div>
           <h1>
             <span class="gradient-text">Kujaga</span> menjaga<br>
@@ -342,13 +273,8 @@
           </h1>
           <p>Autonomous Identity Security Agent untuk public figure Indonesia. Sekali setup, Kujaga melindungi selamanya.</p>
           <div class="hero-buttons">
-            <a href="#start" class="btn-cta">🚀 Mulai Gratis Sekarang</a>
-            <a href="#features" class="btn-secondary">▶ Lihat Demo</a>
-          </div>
-          <div class="live-stats">
-            <div class="live-stat"><div class="dot"></div> Beta tester: 12 users</div>
-            <div class="live-stat"><div class="dot"></div> Monitoring: 247 entries</div>
-            <div class="live-stat"><div class="dot"></div> Uptime: 99.8%</div>
+            <a href="#mulai" class="btn-green">🚀 Mulai Gratis Sekarang</a>
+            <a href="#fitur" class="btn-secondary">▶ Lihat Fitur</a>
           </div>
         </div>
       </div>
@@ -358,10 +284,10 @@
     <div class="trust-bar">
       <div class="container">
         <div class="trust-stats">
-          <div><div class="value">432K+</div><div class="label">Fraud Cases in ID (2024)</div></div>
-          <div><div class="value">148M</div><div class="label">Data Leaked (BSSN 2024)</div></div>
-          <div><div class="value">2.6M</div><div class="label">Breach Reports (BNPT)</div></div>
-          <div><div class="value">IDR 147T</div><div class="label">Annual Cyber Loss (BI)</div></div>
+          <div><div class="value">432K+</div><div class="label">Kasus Fraud Digital (2024)</div></div>
+          <div><div class="value">148M</div><div class="label">Data Warga Indonesia Bocor</div></div>
+          <div><div class="value">2.6M</div><div class="label">Laporan Breach (BNPT)</div></div>
+          <div><div class="value">IDR 147T</div><div class="label">Kerugian Cyber Per Tahun</div></div>
         </div>
       </div>
     </div>
@@ -380,102 +306,80 @@
           <div class="stat-card orange">
             <div class="number">148M</div>
             <div class="label">Data Warga Bocor</div>
-            <div class="desc">Kebocoran besar: Tokopedia (91M), Lazada (16M), HP (6M)</div>
+            <div class="desc">Kebocoran besar: Tokopedia (91M), Lazada (16M)</div>
           </div>
           <div class="stat-card yellow">
             <div class="number">2-6 jam</div>
             <div class="label">Waktu Respons Manual</div>
-            <div class="desc">Waktu yang terbuang saat tangani insiden sendiri</div>
+            <div class="desc">Waktu terbuang saat tangani insiden sendiri</div>
           </div>
         </div>
         
         <div class="data-sources">
-          <h4>Data Sources (2024):</h4>
+          <h4>Sumber Data (2024):</h4>
           <ul>
             <li><a href="https://bssn.go.id" target="_blank">bssn.go.id</a> — Badan Siber dan Sandi Negara</li>
             <li><a href="https://bi.go.id" target="_blank">bi.go.id</a> — Bank Indonesia</li>
-            <li><a href="https://bnpt.go.id" target="_blank">bnpt.go.id</a> — BNPT Indonesia</li>
-            <li><a href="https://haveibeenpwned.com" target="_blank">HaveIBeenPwned.com</a> — 15B+ breach records</li>
+            <li><a href="https://haveibeenpwned.com" target="_blank">HaveIBeenPwned.com</a> — 15M+ breach records</li>
           </ul>
         </div>
       </div>
     </section>
     
     <!-- Features -->
-    <section id="features" class="bg-gradient">
+    <section id="fitur" class="bg-gradient">
       <div class="container">
         <h2 class="section-title">11 Tools dalam 1 Agent</h2>
         <p class="section-subtitle">Kujaga menggabungkan tools enterprise-grade jadi satu agent yang kerja 24/7</p>
         <div class="features-grid">
           <div class="feature-card">
             <div class="icon">🔐</div>
-            <h3>HIBP Breach Check</h3>
+            <h3>Cek Breach HIBP</h3>
             <p>Cek email/password di 15 miliar+ breach records secara gratis</p>
           </div>
           <div class="feature-card purple">
             <div class="icon">👁️</div>
-            <h3>Brand Monitoring</h3>
+            <h3>Monitoring Brand</h3>
             <p>Pantau mention nama Anda di seluruh internet 24/7</p>
           </div>
           <div class="feature-card pink">
             <div class="icon">📰</div>
-            <h3>News Scanner</h3>
+            <h3>Scanner Berita</h3>
             <p>Deteksi breach di perusahaan terkait secara otomatis</p>
           </div>
           <div class="feature-card green">
             <div class="icon">🎣</div>
-            <h3>Phishing Block</h3>
+            <h3>Blokir Phishing</h3>
             <p>Identifikasi dan blokir domain yang meniru Anda</p>
           </div>
           <div class="feature-card cyan">
             <div class="icon">📄</div>
-            <h3>PDUPA Letter Gen</h3>
-            <p>Generate surat UU PDP untuk hapus data via AI</p>
+            <h3>Generate Surat UU PDP</h3>
+            <p>Generate surat permintaan hapus data via AI</p>
           </div>
           <div class="feature-card">
             <div class="icon">📱</div>
-            <h3>Telegram Alerts</h3>
+            <h3>Alert Telegram</h3>
             <p>Notifikasi real-time langsung ke HP Anda</p>
           </div>
         </div>
       </div>
     </section>
     
-    <!-- Start Using Now -->
-    <section id="start">
-      <div class="container">
-        <div class="waitlist-section" style="background: linear-gradient(135deg, rgba(34,197,94,0.15), rgba(34,197,94,0.05)); border-color: rgba(34,197,94,0.4);">
-          <div style="font-size: 48px; margin-bottom: 16px;">🎉</div>
-          <h2>Mulai Sekarang — GRATIS!</h2>
-          <p>Kujaga sudah siap digunakan. Langsung chat dengan bot Telegram untuk mulai proteksi identitas digital Anda.</p>
-          <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 32px;">
-            <a href="https://t.me/Kujaga_bot?start=now" target="_blank" class="btn-cta" style="background: linear-gradient(135deg, #22c55e, #16a34a); box-shadow: 0 0 40px rgba(34,197,94,0.3);">
-              🚀 Buka Kujaga Bot di Telegram
-            </a>
-          </div>
-          <div style="margin-top: 32px; display: flex; gap: 32px; justify-content: center; flex-wrap: wrap;">
-            <div class="live-stat"><div class="dot"></div> <span id="uc-count">247</span> entries dimonitor</div>
-            <div class="live-stat"><div class="dot"></div> Semua tools aktif</div>
-            <div class="live-stat"><div class="dot"></div> 100% Gratis</div>
-          </div>
-        </div>
-      </div>
-    </section>
-    
     <!-- How It Works -->
-    <section id="how-it-works">
+    <section>
       <div class="container">
         <h2 class="section-title">Cara Kerja Kujaga</h2>
         <p class="section-subtitle">Dari signup ke proteksi penuh dalam waktu 3 menit</p>
         <div class="steps-grid">
           <div class="step">
             <div class="step-number">1</div>
-            <h3>Connect via Telegram</h3>
+            <h3>Hubungkan via Telegram</h3>
             <p>Mulai chat dengan @KujagaBot. Butuh 2 menit.</p>
           </div>
           <div class="step">
             <div class="step-number">2</div>
-            <h3>Set Parameter</h3>
+            <h3>Atur Parameter</h3>
             <p>Tambahkan email, nama, perusahaan yang dipantau. Sekali aja.</p>
           </div>
           <div class="step">
@@ -487,50 +391,22 @@
       </div>
     </section>
     
-    <!-- Pricing -->
-    <section>
+    <!-- Start Now -->
+    <section id="mulai">
       <div class="container">
-        <div style="background: linear-gradient(135deg, rgba(34,197,94,0.2), rgba(34,197,94,0.05)); border: 1px solid rgba(34,197,94,0.3); border-radius: 16px; padding: 16px 24px; text-align: center; margin-bottom: 32px; max-width: 400px; margin-left: auto; margin-right: auto;">
-          <span style="font-size: 20px;">🎉</span>
-          <span style="font-size: 18px; font-weight: 700; color: #4ade80; margin-left: 8px;">BETA — SEMUA FITUR GRATIS!</span>
-        </div>
-        
-        <h2 class="section-title">100% Free Beta Access</h2>
-        <p class="section-subtitle">Semua tools terbuka tanpa biaya selama beta testing periode. Preview full features kami.</p>
-        
-        <div class="pricing-grid">
-          <div class="pricing-card" style="border-color: rgba(34,197,94,0.3);">
-            <div style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #22c55e, #16a34a); padding: 4px 16px; border-radius: 9999px; font-size: 12px; font-weight: 700;">FREE</div>
-            <h3 style="margin-top: 8px;">Beta Access</h3>
-            <div class="price" style="color: #4ade80;">GRATIS<span style="font-size: 16px; color: #64748b; font-weight: 400;">/selamanya</span></div>
-            <ul>
-              <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Unlimited email monitoring</li>
-              <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Brand monitoring</li>
-              <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Phishing detection</li>
-              <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> PDUPA letter generation</li>
-              <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Telegram alerts</li>
-              <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> 24/7 autonomous patrol</li>
-              <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> All 11 security tools</li>
-            </ul>
-            <a href="#waitlist" class="btn-pricing primary">🚀 Join Beta — Free</a>
-          </div>
-        </div>
-        
-        <p style="text-align: center; color: #64748b; font-size: 14px; margin-top: 32px;">
-          💡 Setelah beta selesai, pricing plan akan diumumkan. Beta tester mendapat prioritas.
-        </p>
-      </div>
-    </section>
-    
-    <!-- CTA -->
-    <section>
-      <div class="container">
-        <div class="cta-box">
-          <div class="beta-badge">BETA v0.1</div>
+        <div class="start-section">
+          <div class="beta-badge">BETA</div>
           <br>
-          <h2>Siap Lindungi Identitas Digital Anda?</h2>
-          <p>Kujaga sedang dalam beta — SEMUA FITUR GRATIS untuk beta tester. Join sekarang dan bantu shaping produk ini.</p>
-          <a href="#waitlist" class="btn-cta">🚀 Join Free Beta</a>
+          <h2>Mulai Sekarang — GRATIS!</h2>
+          <p>Kujaga sudah siap digunakan. Langsung chat dengan bot Telegram untuk mulai proteksi identitas digital Anda.</p>
+          <a href="https://t.me/Kujaga_bot" target="_blank" class="btn-green" style="display: inline-block;">
+            🚀 Buka Kujaga Bot di Telegram
+          </a>
+          <div class="live-stats">
+            <div class="live-stat"><div class="dot"></div>247 entries dimonitor</div>
+            <div class="live-stat"><div class="dot"></div>Semua tools aktif</div>
+            <div class="live-stat"><div class="dot"></div>100% Gratis</div>
+          </div>
         </div>
       </div>
     </section>
