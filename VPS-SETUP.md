@@ -116,6 +116,30 @@ pm2 restart kujaga
 
 ---
 
+## OpenClaw Setup (Optional — For AI Agent Interface)
+
+OpenClaw gives you a chat-based AI agent interface for Kujaga.
+
+### Install OpenClaw:
+```bash
+curl -fsSL https://openclaw.ai/install.sh | bash
+openclaw onboard
+```
+
+### Load Kujaga Skill:
+```bash
+cd /var/www/kujaga
+openclaw skill add ./skills/SKILL.md
+```
+
+### Run OpenClaw Dashboard:
+```bash
+openclaw dashboard
+# Opens web interface at http://localhost:8080
+```
+
+---
+
 ## VPS Commands
 
 | Command | Description |

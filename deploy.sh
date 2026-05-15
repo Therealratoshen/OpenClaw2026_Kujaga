@@ -1,11 +1,10 @@
 #!/bin/bash
-# Kujaga Deployment Script for VPS
-# Run on fresh VPS: Ubuntu 22.04 recommended
+# Kujaga + OpenClaw Deployment Script
 
 set -e
 
-echo "🛡️ Kujaga Deployment Script"
-echo "============================"
+echo "🛡️ Kujaga + OpenClaw Deployment"
+echo "================================"
 
 # Update system
 echo "📦 Updating system packages..."
@@ -14,45 +13,65 @@ apt update && apt upgrade -y
 # Install Node.js 18
 echo "📦 Installing Node.js 18..."
 curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
-apt install -y nodejs
+apt install -y nodejs npm
 
-# Install PM2 (process manager)
+# Install PM2
 echo "📦 Installing PM2..."
 npm install -g pm2
+
+# Install OpenClaw
+echo "📦 Installing OpenClaw..."
+curl -fsSL https://openclaw.ai/install.sh | bash
 
 # Create app directory
 echo "📁 Setting up app directory..."
 mkdir -p /var/www/kujaga
 cd /var/www/kujaga
 
-# Clone repo (or copy files)
+# Clone repo (or copy files manually)
 echo "📥 Cloning repository..."
-# Replace with your repo URL
 # git clone https://github.com/Therealratoshen/OpenClaw2026_Kujaga.git .
 
 # Install dependencies
-echo "📦 Installing dependencies..."
-npm install --production
+echo "📦 Installing npm dependencies..."
+npm install
 
 # Setup environment
 echo "⚙️ Setting up environment..."
-cp .env.example .env
-nano .env  # Edit with your API keys
+cat > .env << 'EOF'
+PORT=3000
+LOG_LEVEL=info
+TELEGRAM_BOT_TOKEN=your_telegram_token
+MINIMAX_API_KEY=your_minimax_key
+DOKU_CLIENT_ID=your_doku_client_id
+DOKU_AUTHORIZATION=Basic your_base64_encoded_key
+DOKU_MCP_URL=https://api-sandbox.doku.com/doku-mcp-server/mcp
+EOF
 
-# Start with PM2
-echo "🚀 Starting Kujaga with PM2..."
+echo "⚠️ Please edit .env with your API keys: nano .env"
+
+# Initialize OpenClaw
+echo "🤖 Initializing OpenClaw..."
+openclaw onboard || echo "OpenClaw setup skipped"
+
+# Load Kujaga skill
+echo "📚 Loading Kujaga skill..."
+openclaw skill add ./skills/SKILL.md || echo "Skill load skipped"
+
+# Start Express server with PM2
+echo "🚀 Starting Kujaga server..."
 pm2 start src/server/app.js --name kujaga
 pm2 startup
 pm2 save
 
-# Setup Nginx (optional, for HTTPS)
-echo "🌐 Setting up Nginx reverse proxy..."
+# Setup Nginx (optional, for HTTPS later)
+echo "🌐 Setting up Nginx..."
 apt install -y nginx
 
-cat > /etc/nginx/sites-available/kujaga << 'EOF'
+cat > /etc/nginx/sites-available/kujaga << 'NGINX'
 server {
     listen 80;
-    server_name your-domain.com;
+    server_name YOUR_DOMAIN.com;
 
     location / {
         proxy_pass http://127.0.0.1:3000;
@@ -63,24 +82,17 @@ server {
         proxy_cache_bypass $http_upgrade;
     }
 }
-EOF
+NGINX
 
 ln -sf /etc/nginx/sites-available/kujaga /etc/nginx/sites-enabled/
-nginx -t
-systemctl restart nginx
-
-# Setup SSL with Certbot
-echo "🔒 Setting up SSL..."
-apt install -y certbot python3-certbot-nginx
-certbot --nginx -d your-domain.com
+nginx -t && systemctl restart nginx
 
 echo ""
-echo "✅ Kujaga deployed!"
-echo "   App: http://your-domain.com"
-echo "   Health: http://your-domain.com/health"
+echo "✅ Deployment Complete!"
+echo "   Express API: http://YOUR_IP:3000"
+echo "   OpenClaw: openclaw dashboard"
 echo ""
-echo "PM2 Commands:"
-echo "  pm2 status     - Check status"
-echo "  pm2 logs       - View logs"
-echo "  pm2 restart    - Restart"
-echo "  pm2 stop       - Stop"
+echo "Next steps:"
+echo "  1. Edit .env with your keys"
+echo "  2. Set Telegram webhook"
+echo "  3. pm2 logs kujaga"
