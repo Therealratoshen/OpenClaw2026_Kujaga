@@ -342,7 +342,7 @@
           </h1>
           <p>Autonomous Identity Security Agent untuk public figure Indonesia. Sekali setup, Kujaga melindungi selamanya.</p>
           <div class="hero-buttons">
-            <a href="#waitlist" class="btn-cta">🚀 Join Free Beta</a>
+            <a href="#start" class="btn-cta">🚀 Mulai Gratis Sekarang</a>
             <a href="#features" class="btn-secondary">▶ Lihat Demo</a>
           </div>
           <div class="live-stats">
@@ -441,23 +441,23 @@
       </div>
     </section>
     
-    <!-- Beta Signup -->
-    <section id="waitlist">
+    <!-- Start Using Now -->
+    <section id="start">
       <div class="container">
-        <div class="waitlist-section" style="background: linear-gradient(135deg, rgba(99,102,241,0.15), rgba(139,92,246,0.05)); border-color: rgba(99,102,241,0.4);">
-          <div class="beta-badge">BETA</div>
-          <br>
-          <h2>🚀 Daftar Beta Tester — GRATIS!</h2>
-          <p>Semua fitur bebas biaya selama beta. Mulai lindungi identitas digital Anda sekarang juga.</p>
-          <form class="waitlist-form" onsubmit="submitWaitlist(event)">
-            <input type="text" id="wa-name" placeholder="Nama Anda" required>
-            <input type="email" id="wa-email" placeholder="Email aktif" required>
-            <button type="submit" class="btn-waitlist">🚀 Join Beta Gratis!</button>
-          </form>
-          <p id="wa-status" style="margin-top: 16px;"></p>
-          <p class="waitlist-note">
-            <span id="wa-count">12</span> orang sudah daftar • Langsung aktif setelah signup
-          </p>
+        <div class="waitlist-section" style="background: linear-gradient(135deg, rgba(34,197,94,0.15), rgba(34,197,94,0.05)); border-color: rgba(34,197,94,0.4);">
+          <div style="font-size: 48px; margin-bottom: 16px;">🎉</div>
+          <h2>Mulai Sekarang — GRATIS!</h2>
+          <p>Kujaga sudah siap digunakan. Langsung chat dengan bot Telegram untuk mulai proteksi identitas digital Anda.</p>
+          <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 32px;">
+            <a href="https://t.me/Kujaga_bot?start=now" target="_blank" class="btn-cta" style="background: linear-gradient(135deg, #22c55e, #16a34a); box-shadow: 0 0 40px rgba(34,197,94,0.3);">
+              🚀 Buka Kujaga Bot di Telegram
+            </a>
+          </div>
+          <div style="margin-top: 32px; display: flex; gap: 32px; justify-content: center; flex-wrap: wrap;">
+            <div class="live-stat"><div class="dot"></div> <span id="uc-count">247</span> entries dimonitor</div>
+            <div class="live-stat"><div class="dot"></div> Semua tools aktif</div>
+            <div class="live-stat"><div class="dot"></div> 100% Gratis</div>
+          </div>
         </div>
       </div>
     </section>
@@ -537,66 +537,5 @@
   </main>
   
   {% include footer.html %}
-  
-  <script>
-    // Supabase Configuration
-    const SUPABASE_URL = 'https://dfhxirestwsqlbqgdafpsh.supabase.co';
-    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRmeHhpcmVzd3NxbGJqZGFmcHNoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg4MzU0MDUsImV4cCI6MjA5NDQxMTQwNX0.mwZSto7srb6UtqlCH81gg25HkhZIVMaTCBoVz-xNdUA';
-
-    async function submitWaitlist(e) {
-      e.preventDefault();
-      const name = document.getElementById('wa-name').value;
-      const email = document.getElementById('wa-email').value;
-      const countEl = document.getElementById('wa-count');
-      const statusEl = document.getElementById('wa-status');
-      const submitBtn = document.querySelector('.btn-waitlist');
-      
-      // Show loading
-      submitBtn.textContent = 'Mengirim...';
-      submitBtn.disabled = true;
-      statusEl.textContent = '';
-      
-      try {
-        // Save to Supabase
-        const response = await fetch(SUPABASE_URL + '/rest/v1/beta_waitlist', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'apikey': SUPABASE_KEY,
-            'Authorization': 'Bearer ' + SUPABASE_KEY
-          },
-          body: JSON.stringify({
-            name: name,
-            email: email,
-            status: 'pending',
-            joined_at: new Date().toISOString()
-          })
-        });
-        
-        if (response.ok) {
-          // Success
-          const currentCount = parseInt(countEl.textContent);
-          countEl.textContent = currentCount + 1;
-          
-          statusEl.innerHTML = '<span style="color: #4ade80;">✓ Terima kasih! Anda sudah join beta waitlist.</span>';
-          document.getElementById('wa-name').value = '';
-          document.getElementById('wa-email').value = '';
-          
-          // Open Telegram bot link
-          setTimeout(() => {
-            window.open('https://t.me/Kujaga_bot?start=beta', '_blank');
-          }, 1500);
-        } else {
-          throw new Error('Failed to submit');
-        }
-      } catch (error) {
-        console.error('Error:', error);
-        statusEl.innerHTML = '<span style="color: #ef4444;">Error. Coba lagi atau hubungi @KujagaBot.</span>';
-      } finally {
-        submitBtn.textContent = 'Join Beta Waitlist';
-        submitBtn.disabled = false;
-      }
-    }
-  </script>
 </body>
 </html>
