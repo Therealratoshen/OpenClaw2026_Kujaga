@@ -55,14 +55,14 @@ function Hero() {
         </div>
         
         <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-          <span className="bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">Kujaga</span> menjaga<br />
+          <span className="bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">Kujaga</span> jaga<br />
           namamu, data kamu,<br />
-          dan reputasi kamu.
+          <span className="bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">dan reputasi kamu.</span>
         </h1>
         
         <p className="text-xl text-slate-400 mb-8">
-          Autonomous Identity Security Agent untuk public figure Indonesia.<br />
-          Sekali setup, Kujaga melindungi selamanya. GRÁTIS!
+          Agent Keamanan Identitas Digital untuk public figure Indonesia.<br />
+          Sekali setup, Kujaga jaga selamanya. GRATIS!
         </p>
         
         <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
@@ -170,11 +170,11 @@ function HowItWorks() {
 
 function Features() {
   const features = [
-    { icon: "🔐", title: "Breach Check", desc: "Cek email di 15Milyar+ breach records via HIBP" },
-    { icon: "👁️", title: "Brand Monitoring", desc: "Pantau nama di seluruh internet 24/7" },
-    { icon: "🎣", title: "Phishing Block", desc: "Deteksi situs phishing yang pakai nama kamu" },
+    { icon: "🔐", title: "Cek Breach", desc: "Cek email di 15Milyar+ data breach via HIBP" },
+    { icon: "👁️", title: "Pantau Merek", desc: "Pantau nama kamu di internet 24/7" },
+    { icon: "🎣", title: "Block Phishing", desc: "Deteksi situs phishing yang pakai nama kamu" },
     { icon: "📄", title: "Surat PDUPA", desc: "Generate surat hukum deletion otomatis via AI" },
-    { icon: "📱", title: "Telegram Alert", desc: "Notifikasi real-time langsung ke HP kamu" },
+    { icon: "📱", title: "Alert Telegram", desc: "Notifikasi real-time langsung ke HP kamu" },
   ];
 
   return (
@@ -217,9 +217,9 @@ function Pricing() {
               <span className="text-slate-400"> selamanya</span>
             </div>
             <ul className="space-y-2 text-sm text-slate-300 mb-6">
-              <li>✓ 1 email monitoring</li>
-              <li>✓ Basic brand check</li>
-              <li>✓ Telegram alerts</li>
+              <li>✓ 1 email</li>
+              <li>✓ Cek merek dasar</li>
+              <li>✓ Alert Telegram</li>
             </ul>
             <a href="https://t.me/Kujaga_bot" target="_blank" rel="noopener noreferrer" className="block text-center bg-white/10 py-2 rounded-full hover:bg-white/20 transition">
               Mulai Gratis
@@ -234,7 +234,7 @@ function Pricing() {
               <span className="text-slate-400"> selamanya</span>
             </div>
             <ul className="space-y-2 text-sm text-slate-300 mb-6">
-              <li>✓ 5 email monitoring</li>
+              <li>✓ 5 email</li>
               <li>✓ Full monitoring suite</li>
               <li>✓ PDUPA letter generation</li>
               <li>✓ Phishing block</li>
@@ -251,7 +251,7 @@ function Pricing() {
               <span className="text-slate-400"> selamanya</span>
             </div>
             <ul className="space-y-2 text-sm text-slate-300 mb-6">
-              <li>✓ Unlimited emails</li>
+              <li>✓ Unlimited email</li>
               <li>✓ Priority support</li>
               <li>✓ API access</li>
               <li>✓ Dedicated support</li>
