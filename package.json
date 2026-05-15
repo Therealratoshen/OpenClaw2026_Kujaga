@@ -1,0 +1,14 @@
+{
+  "name": "kujaga-resolver",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Kujaga — Autonomous Identity Security Agent",
+  "main": "demo-loop.ts",
+  "scripts": {
+    "demo": "node demo-loop.ts",
+    "check": "node --check demo-loop.ts"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
