@@ -51,7 +51,7 @@ function Hero() {
       <div className="max-w-3xl mx-auto text-center">
         <div className="inline-flex items-center gap-2 bg-green-500/20 border border-green-500/30 px-4 py-2 rounded-full mb-6">
           <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-          <span className="text-sm text-green-400">Aktif 24/7 • Zero Triggers</span>
+          <span className="text-sm text-green-400">BETA — GRATIS untuk semua user!</span>
         </div>
         
         <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
@@ -62,7 +62,7 @@ function Hero() {
         
         <p className="text-xl text-slate-400 mb-8">
           Autonomous Identity Security Agent untuk public figure Indonesia.<br />
-          Sekali setup, Kujaga melindungi selamanya.
+          Sekali setup, Kujaga melindungi selamanya. GRÁTIS!
         </p>
         
         <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
@@ -70,7 +70,7 @@ function Hero() {
             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
               <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.477-4.941c.242-.213-.054-.334-.373-.121l-6.871 4.326-2.962-.924c-.643-.203-.658-.643.135-.953l11.566-4.458c.538-.196 1.006.128.832.941z"/>
             </svg>
-            Mulai di Telegram Gratis
+            Mulai di Telegram — GRATIS!
           </a>
         </div>
         
@@ -206,14 +206,15 @@ function Pricing() {
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Harga</h2>
+          <p className="text-slate-400">Sekarang dalam fase Beta —GRATIS untuk semua user!</p>
         </div>
         
         <div className="grid md:grid-cols-3 gap-6">
           <div className="bg-slate-800/50 border border-white/10 rounded-xl p-6">
             <h3 className="font-bold mb-1">Starter</h3>
             <div className="mb-4">
-              <span className="text-3xl font-bold">Rp 99K</span>
-              <span className="text-slate-400">/bulan</span>
+              <span className="text-3xl font-bold text-green-400">GRATIS</span>
+              <span className="text-slate-400"> selamanya</span>
             </div>
             <ul className="space-y-2 text-sm text-slate-300 mb-6">
               <li>✓ 1 email monitoring</li>
@@ -226,11 +227,11 @@ function Pricing() {
           </div>
           
           <div className="bg-gradient-to-br from-indigo-500/20 to-purple-500/20 border border-indigo-500/50 rounded-xl p-6">
-            <div className="bg-indigo-600 text-xs font-bold px-3 py-1 rounded-full inline-block mb-3">Paling Populer</div>
+            <div className="bg-green-600 text-xs font-bold px-3 py-1 rounded-full inline-block mb-3">REKOMENDASI</div>
             <h3 className="font-bold mb-1">Professional</h3>
             <div className="mb-4">
-              <span className="text-3xl font-bold">Rp 199K</span>
-              <span className="text-slate-400">/bulan</span>
+              <span className="text-3xl font-bold text-green-400">GRATIS</span>
+              <span className="text-slate-400"> selamanya</span>
             </div>
             <ul className="space-y-2 text-sm text-slate-300 mb-6">
               <li>✓ 5 email monitoring</li>
@@ -246,8 +247,8 @@ function Pricing() {
           <div className="bg-slate-800/50 border border-white/10 rounded-xl p-6">
             <h3 className="font-bold mb-1">Premium</h3>
             <div className="mb-4">
-              <span className="text-3xl font-bold">Rp 499K</span>
-              <span className="text-slate-400">/bulan</span>
+              <span className="text-3xl font-bold text-green-400">GRATIS</span>
+              <span className="text-slate-400"> selamanya</span>
             </div>
             <ul className="space-y-2 text-sm text-slate-300 mb-6">
               <li>✓ Unlimited emails</li>
@@ -260,6 +261,10 @@ function Pricing() {
             </a>
           </div>
         </div>
+
+        <p className="text-center text-slate-400 mt-8 text-sm">
+          Beta结束后将有付费计划 • Tidak perlu kartu kredit untuk mulai
+        </p>
       </div>
     </section>
   );
