@@ -1,14 +1,29 @@
 {
-  "name": "kujaga-resolver",
+  "name": "kujaga",
   "version": "1.0.0",
   "type": "module",
-  "description": "Kujaga — Autonomous Identity Security Agent",
-  "main": "demo-loop.ts",
+  "description": "Kujaga — Autonomous Identity Security Agent for Indonesian public figures",
+  "main": "src/server/app.js",
   "scripts": {
-    "demo": "node demo-loop.ts",
-    "check": "node --check demo-loop.ts"
+    "start": "node src/server/app.js",
+    "dev": "node --watch src/server/app.js",
+    "demo": "node demo-loop.mjs"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "node-cron": "^3.0.3",
+    "dotenv": "^16.3.1"
   },
   "engines": {
     "node": ">=18.0.0"
-  }
+  },
+  "keywords": [
+    "security",
+    "identity-protection",
+    "indonesia",
+    "hackathon",
+    "openclaw"
+  ],
+  "license": "MIT"
 }
