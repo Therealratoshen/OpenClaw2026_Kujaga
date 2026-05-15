@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ page.title }} | {{ site.tagline }}</title>
+  <meta name="description" content="{{ page.description }}">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #6366f1;
+      --secondary: #8b5cf6;
+      --dark: #0a0a0f;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--dark);
+      color: #fff;
+      line-height: 1.6;
+    }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    
+    /* Navbar */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z: 50;
+      padding: 16px 0;
+      background: rgba(10,10,15,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    nav .container { display: flex; justify-content: space-between; align-items: center; }
+    .logo { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 20px; }
+    .logo-icon {
+      width: 40px; height: 40px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .logo-icon svg { width: 24px; height: 24px; color: white; }
+    .nav-links { display: flex; gap: 32px; }
+    .nav-links a { color: #94a3b8; text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: #fff; }
+    .btn-primary {
+      background: #fff; color: #000;
+      padding: 8px 20px; border-radius: 9999px;
+      font-weight: 600; font-size: 14px;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .btn-primary:hover { background: #e2e8f0; }
+    
+    /* Hero */
+    .hero {
+      padding: 160px 0 80px;
+      text-align: center;
+      position: relative;
+    }
+    .hero::before {
+      content: ''; position: absolute;
+      top: 0; left: 50%; transform: translateX(-50%);
+      width: 800px; height: 800px;
+      background: rgba(99,102,241,0.2); border-radius: 50%;
+      filter: blur(120px);
+    }
+    .hero-content { position: relative; z-index: 1; }
+    .badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 8px 16px; border-radius: 9999px;
+      font-size: 14px; margin-bottom: 32px;
+    }
+    .badge span { width: 8px; height: 8px; background: #4ade80; border-radius: 50%; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+    
+    .hero h1 {
+      font-size: 64px; font-weight: 800; line-height: 1.1;
+      margin-bottom: 24px;
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, #818cf8, #c084fc, #f472b6);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p { font-size: 20px; color: #94a3b8; max-width: 600px; margin: 0 auto 40px; }
+    .hero-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .btn-cta {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      padding: 16px 32px; border-radius: 9999px;
+      font-weight: 600; font-size: 18px;
+      text-decoration: none; color: #fff;
+      box-shadow: 0 0 40px rgba(99,102,241,0.3);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-cta:hover { transform: scale(1.05); box-shadow: 0 0 60px rgba(99,102,241,0.5); }
+    .btn-secondary {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 16px 32px; border-radius: 9999px;
+      font-weight: 600; font-size: 18px;
+      text-decoration: none; color: #fff;
+      transition: background 0.2s;
+    }
+    .btn-secondary:hover { background: rgba(255,255,255,0.1); }
+    
+    .trust-bar { padding: 48px 0; border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .trust-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: center; }
+    .trust-stats .value { font-size: 32px; font-weight: 700; background: linear-gradient(135deg, #818cf8, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .trust-stats .label { color: #64748b; font-size: 14px; }
+    
+    /* Sections */
+    section { padding: 96px 0; }
+    .section-title { font-size: 40px; font-weight: 700; text-align: center; margin-bottom: 16px; }
+    .section-subtitle { color: #94a3b8; text-align: center; max-width: 600px; margin: 0 auto 64px; font-size: 18px; }
+    
+    /* Problem */
+    .problem-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .stat-card {
+      background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.2);
+      border-radius: 24px; padding: 32px; text-align: center;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .stat-card:hover { transform: scale(1.02); border-color: rgba(239,68,68,0.4); }
+    .stat-card.orange { background: rgba(251,146,60,0.1); border-color: rgba(251,146,60,0.2); }
+    .stat-card.yellow { background: rgba(234,179,8,0.1); border-color: rgba(234,179,8,0.2); }
+    .stat-card .number { font-size: 48px; font-weight: 700; color: #ef4444; margin-bottom: 8px; }
+    .stat-card.orange .number { color: #fb923c; }
+    .stat-card.yellow .number { color: #eab308; }
+    .stat-card .label { font-size: 20px; font-weight: 600; margin-bottom: 8px; }
+    .stat-card .desc { color: #94a3b8; }
+    
+    /* Features */
+    .bg-gradient { background: linear-gradient(to bottom, rgba(99,102,241,0.05), transparent); }
+    .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .feature-card {
+      background: linear-gradient(135deg, rgba(59,130,246,0.1), rgba(59,130,246,0.05));
+      border: 1px solid rgba(59,130,246,0.3);
+      border-radius: 16px; padding: 24px;
+      transition: transform 0.2s;
+    }
+    .feature-card:hover { transform: scale(1.02); }
+    .feature-card.purple { background: linear-gradient(135deg, rgba(139,92,246,0.1), rgba(139,92,246,0.05)); border-color: rgba(139,92,246,0.3); }
+    .feature-card.pink { background: linear-gradient(135deg, rgba(236,72,153,0.1), rgba(236,72,153,0.05)); border-color: rgba(236,72,153,0.3); }
+    .feature-card.green { background: linear-gradient(135deg, rgba(34,197,94,0.1), rgba(34,197,94,0.05)); border-color: rgba(34,197,94,0.3); }
+    .feature-card.cyan { background: linear-gradient(135deg, rgba(34,211,238,0.1), rgba(34,211,238,0.05)); border-color: rgba(34,211,238,0.3); }
+    .feature-card .icon { font-size: 36px; margin-bottom: 16px; }
+    .feature-card h3 { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+    .feature-card p { color: #94a3b8; font-size: 14px; }
+    
+    /* How It Works */
+    .steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px; text-align: center; }
+    .step {
+      position: relative;
+    }
+    .step::after {
+      content: ''; position: absolute;
+      top: 32px; left: calc(50% + 48px); width: calc(100% - 96px); height: 1px;
+      background: linear-gradient(to right, rgba(255,255,255,0.1), transparent);
+    }
+    .step:last-child::after { display: none; }
+    .step-number {
+      width: 64px; height: 64px; margin: 0 auto 24px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 24px; font-weight: 700;
+      box-shadow: 0 0 40px rgba(99,102,241,0.3);
+    }
+    .step h3 { font-size: 20px; font-weight: 600; margin-bottom: 8px; }
+    .step p { color: #94a3b8; }
+    
+    /* Pricing */
+    .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 1000px; margin: 0 auto; }
+    .pricing-card {
+      background: rgba(30,41,59,0.5); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 24px; padding: 32px;
+    }
+    .pricing-card.popular {
+      background: linear-gradient(135deg, rgba(99,102,241,0.1), rgba(139,92,246,0.1));
+      border-color: rgba(99,102,241,0.5);
+    }
+    .pricing-card .badge-popular {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      padding: 4px 16px; border-radius: 9999px;
+      font-size: 12px; font-weight: 600;
+      margin-bottom: 16px;
+      position: relative; top: -40px;
+    }
+    .pricing-card h3 { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+    .pricing-card .price { font-size: 40px; font-weight: 700; margin-bottom: 24px; }
+    .pricing-card .price span { font-size: 16px; color: #94a3b8; font-weight: 400; }
+    .pricing-card ul { list-style: none; margin-bottom: 32px; }
+    .pricing-card li { padding: 8px 0; display: flex; align-items: center; gap: 8px; font-size: 14px; }
+    .pricing-card li svg { width: 16px; height: 16px; color: #4ade80; flex-shrink: 0; }
+    .btn-pricing {
+      width: 100%; padding: 12px; border-radius: 9999px; font-weight: 600;
+      text-align: center; text-decoration: none; display: block;
+      transition: background 0.2s;
+    }
+    .btn-pricing.primary {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #fff;
+    }
+    .btn-pricing.secondary { background: rgba(255,255,255,0.1); color: #fff; }
+    
+    /* CTA */
+    .cta-box {
+      background: linear-gradient(135deg, rgba(99,102,241,0.2), rgba(139,92,246,0.2));
+      border: 1px solid rgba(99,102,241,0.3);
+      border-radius: 48px; padding: 64px; text-align: center;
+    }
+    .cta-box h2 { font-size: 40px; font-weight: 700; margin-bottom: 16px; }
+    .cta-box p { color: #94a3b8; font-size: 18px; margin-bottom: 32px; }
+    
+    /* Footer */
+    footer { padding: 48px 0; border-top: 1px solid rgba(255,255,255,0.05); }
+    footer .container { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px; }
+    .footer-brand { display: flex; align-items: center; gap: 8px; font-weight: 600; }
+    .footer-links { display: flex; gap: 24px; }
+    .footer-links a { color: #94a3b8; text-decoration: none; font-size: 14px; transition: color 0.2s; }
+    .footer-links a:hover { color: #fff; }
+    footer .copyright { color: #64748b; font-size: 14px; }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 40px; }
+      .trust-stats, .problem-grid, .features-grid, .pricing-grid { grid-template-columns: 1fr; }
+      .steps-grid { grid-template-columns: 1fr; }
+      .step::after { display: none; }
+      nav .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+  {% include header.html %}
+  
+  <main>
+    <!-- Hero -->
+    <section class="hero">
+      <div class="container">
+        <div class="hero-content">
+          <div class="badge">
+            <span></span>
+            Autonomous Protection 24/7 • Zero Manual Triggers
+          </div>
+          <h1>
+            <span class="gradient-text">Kujaga</span> menjaga<br>
+            namamu, data kamu,<br>
+            <span class="gradient-text">dan reputasi kamu.</span>
+          </h1>
+          <p>Autonomous Identity Security Agent untuk public figure Indonesia. Sekali setup, Kujaga melindungi selamanya.</p>
+          <div class="hero-buttons">
+            <a href="#" class="btn-cta">🚀 Mulai Gratis 14 Hari</a>
+            <a href="#demo" class="btn-secondary">▶ Lihat Demo</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Trust Bar -->
+    <div class="trust-bar">
+      <div class="container">
+        <div class="trust-stats">
+          <div><div class="value">432K+</div><div class="label">Cases Protected</div></div>
+          <div><div class="value">148M</div><div class="label">Data Monitored</div></div>
+          <div><div class="value">99.9%</div><div class="label">Uptime</div></div>
+          <div><div class="value">&lt; 2min</div><div class="label">Response Time</div></div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Problem -->
+    <section>
+      <div class="container">
+        <h2 class="section-title">The Digital Threat is Real</h2>
+        <p class="section-subtitle">Indonesia lost Rp 9.1 Trillion to cybercrime last year. Public figures are the prime targets.</p>
+        <div class="problem-grid">
+          <div class="stat-card">
+            <div class="number">432K+</div>
+            <div class="label">Fraud Cases</div>
+            <div class="desc">Digital fraud cases in Indonesia — increasing 40% YoY</div>
+          </div>
+          <div class="stat-card orange">
+            <div class="number">148M</div>
+            <div class="label">Data Leaked</div>
+            <div class="desc">Indonesian citizens affected by data breaches</div>
+          </div>
+          <div class="stat-card yellow">
+            <div class="number">2-6hrs</div>
+            <div class="label">Avg Response Time</div>
+            <div class="desc">Time wasted manually handling security incidents</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Features -->
+    <section class="bg-gradient">
+      <div class="container">
+        <h2 class="section-title">11 Tools dalam 1 Agent</h2>
+        <p class="section-subtitle">Kujaga combines enterprise-grade security tools into one autonomous agent that works 24/7</p>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="icon">🔐</div>
+            <h3>HIBP Breach Check</h3>
+            <p>Scan 15B+ breach records instantly</p>
+          </div>
+          <div class="feature-card purple">
+            <div class="icon">👁️</div>
+            <h3>Brand Monitoring</h3>
+            <p>Track your name across the internet 24/7</p>
+          </div>
+          <div class="feature-card pink">
+            <div class="icon">📰</div>
+            <h3>News Scanner</h3>
+            <p>Detect breaches at related companies automatically</p>
+          </div>
+          <div class="feature-card green">
+            <div class="icon">🎣</div>
+            <h3>Phishing Block</h3>
+            <p>Identify and block impersonating domains</p>
+          </div>
+          <div class="feature-card cyan">
+            <div class="icon">📄</div>
+            <h3>PDUPA Letter Gen</h3>
+            <p>AI-generated legal letters for data removal requests</p>
+          </div>
+          <div class="feature-card">
+            <div class="icon">📱</div>
+            <h3>Telegram Alerts</h3>
+            <p>Real-time notifications directly to your phone</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- How It Works -->
+    <section id="how-it-works">
+      <div class="container">
+        <h2 class="section-title">How It Works</h2>
+        <p class="section-subtitle">From signup to full protection in under 3 minutes</p>
+        <div class="steps-grid">
+          <div class="step">
+            <div class="step-number">1</div>
+            <h3>Connect via Telegram</h3>
+            <p>Start a chat with @KujagaBot. Takes 2 minutes.</p>
+          </div>
+          <div class="step">
+            <div class="step-number">2</div>
+            <h3>Set Your Parameters</h3>
+            <p>Add emails, names, companies to monitor. One-time setup.</p>
+          </div>
+          <div class="step">
+            <div class="step-number">3</div>
+            <h3>Kujaga Works 24/7</h3>
+            <p>Patrols continuously. Alerts you only when action is needed.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Pricing -->
+    <section>
+      <div class="container">
+        <h2 class="section-title">Simple, Transparent Pricing</h2>
+        <p class="section-subtitle">Start protecting your digital identity today. Cancel anytime.</p>
+        <div class="pricing-grid">
+          <div class="pricing-card">
+            <h3>Starter</h3>
+            <div class="price">Rp 99K<span>/bulan</span></div>
+            <ul>
+              <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> 1 Email monitoring</li>
+              <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Basic brand check</li>
+              <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Telegram alerts</li>
+              <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Daily report</li>
+            </ul>
+            <a href="#" class="btn-pricing secondary">Get Started</a>
+          </div>
+          <div class="pricing-card popular">
+            <div class="badge-popular">Most Popular</div>
+            <h3>Professional</h3>
+            <div class="price">Rp 199K<span>/bulan</span></div>
+            <ul>
+              <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> 5 Email monitoring</li>
+              <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Full monitoring suite</li>
+              <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> PDUPA letter gen</li>
+              <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Phishing block</li>
+              <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Priority support</li>
+            </ul>
+            <a href="#" class="btn-pricing primary">Get Started</a>
+          </div>
+          <div class="pricing-card">
+            <h3>Premium</h3>
+            <div class="price">Rp 499K<span>/bulan</span></div>
+            <ul>
+              <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Unlimited emails</li>
+              <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Enterprise features</li>
+              <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> API access</li>
+              <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Dedicated support</li>
+              <li><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> White-label</li>
+            </ul>
+            <a href="#" class="btn-pricing secondary">Get Started</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- CTA -->
+    <section>
+      <div class="container">
+        <div class="cta-box">
+          <h2>Ready to Protect Your Digital Identity?</h2>
+          <p>Join hundreds of Indonesian public figures who trust Kujaga to keep them safe 24/7.</p>
+          <a href="#" class="btn-cta">🚀 Mulai Gratis 14 Hari</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  
+  {% include footer.html %}
+</body>
+</html>
