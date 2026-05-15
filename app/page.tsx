@@ -116,7 +116,7 @@ function Problem() {
           <div className="grid md:grid-cols-2 gap-4 text-sm">
             <div className="flex items-start gap-3">
               <span className="text-red-400">•</span>
-              <span className="text-slate-300">Influencer & Content Creator — akun di-clone untuk scam粉丝</span>
+              <span className="text-slate-300">Influencer & Content Creator — akun di-clone untuk scam followers</span>
             </div>
             <div className="flex items-start gap-3">
               <span className="text-red-400">•</span>
@@ -263,7 +263,7 @@ function Pricing() {
         </div>
 
         <p className="text-center text-slate-400 mt-8 text-sm">
-          Beta结束后将有付费计划 • Tidak perlu kartu kredit untuk mulai
+          Beta selesai akan ada paket berbayar • Tidak perlu kartu kredit untuk mulai
         </p>
       </div>
     </section>
