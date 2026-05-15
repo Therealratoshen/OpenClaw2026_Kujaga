@@ -8,6 +8,7 @@ interface Message {
   content: string;
   platform: "telegram" | "web";
   timestamp: Date;
+  metadata?: Record<string, unknown>;
 }
 
 interface QuickCommand {
@@ -46,38 +47,90 @@ export default function ChatPage() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [userId, setUserId] = useState<string>("");
   const [platform, setPlatform] = useState<"telegram" | "web">("web");
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // Initialize user session
+  // Initialize user session and load history
   useEffect(() => {
-    // Check if coming from Telegram (via deep link)
-    const urlParams = new URLSearchParams(window.location.search);
-    const tgParams = urlParams.get("telegram_id");
-    
-    if (tgParams) {
-      setUserId(tgParams);
-      setPlatform("telegram");
-    } else {
-      // Generate web session ID
-      const webSessionId = localStorage.getItem("kujaga_session") || 
-        `web_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-      localStorage.setItem("kujaga_session", webSessionId);
-      setUserId(webSessionId);
-    }
+    const initSession = async () => {
+      // Check if coming from Telegram (via deep link)
+      const urlParams = new URLSearchParams(window.location.search);
+      const tgParams = urlParams.get("telegram_id");
+      
+      if (tgParams) {
+        setUserId(tgParams);
+        setPlatform("telegram");
+      } else {
+        // Generate web session ID
+        const webSessionId = localStorage.getItem("kujaga_session") || 
+          `web_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+        localStorage.setItem("kujaga_session", webSessionId);
+        setUserId(webSessionId);
+      }
+    };
 
-    // Load welcome message
-    setMessages([
-      {
-        id: "welcome",
-        role: "assistant",
-        content: WELCOME_MESSAGE,
-        platform: "web",
-        timestamp: new Date(),
-      },
-    ]);
+    initSession();
   }, []);
+
+  // Load chat history from Supabase
+  useEffect(() => {
+    if (!userId) return;
+
+    const loadHistory = async () => {
+      try {
+        const response = await fetch(`/api/chat/history?user_id=${userId}`);
+        const data = await response.json();
+        
+        if (data.messages && data.messages.length > 0) {
+          const loadedMessages = data.messages.map((msg: {
+            id: string;
+            role: string;
+            content: string;
+            platform: "telegram" | "web";
+            created_at: string;
+            metadata?: Record<string, unknown>;
+          }) => ({
+            id: msg.id,
+            role: msg.role as "user" | "assistant",
+            content: msg.content,
+            platform: msg.platform,
+            timestamp: new Date(msg.created_at),
+            metadata: msg.metadata,
+          }));
+          setMessages(loadedMessages);
+        } else {
+          // No history, show welcome message
+          setMessages([
+            {
+              id: "welcome",
+              role: "assistant",
+              content: WELCOME_MESSAGE,
+              platform: "web",
+              timestamp: new Date(),
+            },
+          ]);
+        }
+      } catch (error) {
+        console.error("Failed to load history:", error);
+        // Show welcome message anyway
+        setMessages([
+          {
+            id: "welcome",
+            role: "assistant",
+            content: WELCOME_MESSAGE,
+            platform: "web",
+            timestamp: new Date(),
+          },
+        ]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadHistory();
+  }, [userId]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -91,7 +144,7 @@ export default function ChatPage() {
     if (!content.trim() || !userId) return;
 
     const userMessage: Message = {
-      id: Date.now().toString(),
+      id: `temp_${Date.now()}`,
       role: "user",
       content,
       platform,
@@ -102,10 +155,9 @@ export default function ChatPage() {
     setInput("");
     setIsTyping(true);
 
-    // Save to Supabase (simulated for now)
     try {
-      // In production, this would call your API
-      await fetch("/api/chat/save", {
+      // Save user message to Supabase
+      const saveResponse = await fetch("/api/chat/save", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -115,8 +167,19 @@ export default function ChatPage() {
           content,
         }),
       });
-    } catch (e) {
-      console.log("Save to DB (simulated)");
+      
+      const savedData = await saveResponse.json();
+      
+      // Update message ID with real one from DB
+      if (savedData.success && savedData.message_id) {
+        setMessages((prev) =>
+          prev.map((msg) =>
+            msg.id === userMessage.id ? { ...msg, id: savedData.message_id } : msg
+          )
+        );
+      }
+    } catch (error) {
+      console.error("Failed to save user message:", error);
     }
 
     // Generate AI response
@@ -124,7 +187,7 @@ export default function ChatPage() {
       const response = await generateResponse(content);
       
       const assistantMessage: Message = {
-        id: (Date.now() + 1).toString(),
+        id: `temp_${Date.now() + 1}`,
         role: "assistant",
         content: response,
         platform: "web",
@@ -134,8 +197,8 @@ export default function ChatPage() {
       setMessages((prev) => [...prev, assistantMessage]);
       setIsTyping(false);
 
-      // Save to Supabase
       try {
+        // Save assistant message to Supabase
         await fetch("/api/chat/save", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -146,8 +209,8 @@ export default function ChatPage() {
             content: response,
           }),
         });
-      } catch (e) {
-        console.log("Save to DB (simulated)");
+      } catch (error) {
+        console.error("Failed to save assistant message:", error);
       }
     }, 1500);
   };
@@ -246,7 +309,6 @@ Kirim sekarang atau simpan dulu?`;
     }
 
     if (cmd === "/alert") {
-      // Send test message to Telegram
       return `🔔 *Test Alert Terkirim!*
 
 Alert sudah dikirim ke Telegram Anda.
@@ -266,15 +328,6 @@ Cek di @Kujaga_bot untuk melihat pesan test.`;
 • Typosquatting: Kemungkinan YA
 
 *⚡ Saran:* Jangan klik link dari domain ini!`;
-    }
-
-    // Default response for other inputs
-    if (cmd.includes("@") && cmd.includes("breach")) {
-      return `🔐 *Breach Check*
-
-Silakan gunakan format: \`/check email@anda.com\`
-
-Contoh: \`/check nama@gmail.com\``;
     }
 
     return `🤔 *Saya belum paham maksud Anda*
@@ -298,6 +351,14 @@ Atau ketik pertanyaan Anda dalam bahasa Indonesia!`;
   const handleQuickCommand = (command: QuickCommand) => {
     sendMessage(command.command);
   };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-[#0a0a0f] flex items-center justify-center">
+        <div className="w-12 h-12 rounded-full border-4 border-indigo-500/30 border-t-indigo-500 animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#0a0a0f] flex flex-col">
@@ -371,7 +432,7 @@ Atau ketik pertanyaan Anda dalam bahasa Indonesia!`;
                       minute: "2-digit",
                     })}
                   </span>
-                  {msg.platform !== "web" && (
+                  {msg.platform === "telegram" && (
                     <span className="text-[#0088cc]">via Telegram</span>
                   )}
                 </div>
@@ -397,7 +458,7 @@ Atau ketik pertanyaan Anda dalam bahasa Indonesia!`;
         {/* Quick Commands */}
         <div className="mb-4">
           <p className="text-xs text-slate-500 mb-2">⚡ Quick Commands</p>
-          <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-thin">
+          <div className="flex gap-2 overflow-x-auto pb-2">
             {QUICK_COMMANDS.map((cmd) => (
               <button
                 key={cmd.command}
@@ -432,15 +493,15 @@ Atau ketik pertanyaan Anda dalam bahasa Indonesia!`;
           </button>
         </form>
 
-        {/* Platform indicator */}
+        {/* Status */}
         <div className="flex items-center justify-center gap-4 mt-4 pt-4 border-t border-white/5">
           <div className="flex items-center gap-2 text-xs text-slate-500">
-            <div className={`w-2 h-2 rounded-full ${platform === "telegram" ? "bg-[#0088cc]" : "bg-green-500"}`} />
-            <span>{platform === "telegram" ? "Connected via Telegram" : "Web Session"}</span>
+            <div className="w-2 h-2 rounded-full bg-green-500" />
+            <span>Connected to Supabase</span>
           </div>
           <span className="text-slate-600">•</span>
           <span className="text-xs text-slate-500">
-            {messages.length} messages
+            {messages.length} messages • Session: {userId.substring(0, 12)}...
           </span>
         </div>
       </main>

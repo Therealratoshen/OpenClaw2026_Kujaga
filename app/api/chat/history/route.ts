@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
+import { createClient } from "@supabase/supabase-js";
 
-// This is a mock API - in production, connect to Supabase
-// For demo purposes, we'll simulate the retrieval
+const supabaseUrl = "https://dfhxirestwsqlbqgdafpsh.supabase.co";
+const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRmeHhpcmVzd3NxbGJqZGFmcHNoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg4MzU0MDUsImV4cCI6MjA5NDQxMTQwNX0.mwZSto7srb6UtqlCH81gg25HkhZIVMaTCBoVz-xNdUA";
+
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 export async function GET(request: NextRequest) {
   try {
@@ -16,18 +19,25 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // In production, fetch from Supabase:
-    // const { data } = await supabase
-    //   .from("chat_messages")
-    //   .select("*")
-    //   .eq("user_id", userId)
-    //   .order("created_at", { ascending: false })
-    //   .limit(limit);
+    // Fetch from Supabase
+    const { data, error } = await supabase
+      .from("chat_messages")
+      .select("*")
+      .eq("user_id", userId)
+      .order("created_at", { ascending: true })
+      .limit(limit);
 
-    // For demo, return empty array (no history yet)
+    if (error) {
+      console.error("Supabase fetch error:", error);
+      return NextResponse.json(
+        { error: error.message },
+        { status: 500 }
+      );
+    }
+
     return NextResponse.json({
-      messages: [],
-      total: 0,
+      messages: data || [],
+      total: data?.length || 0,
       user_id: userId,
     });
   } catch (error) {
